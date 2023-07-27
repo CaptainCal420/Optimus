@@ -32,12 +32,23 @@ def listen():
             return "None"
 
 def chat_with_openai(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-002",  # Choose the language model engine
-        prompt=prompt,
-        max_tokens=150  # Adjust the max_tokens parameter as needed for the desired response length
-    )
-    return response.choices[0].text.strip()
+    print("DEBUG: Initiating OpenAI chat with prompt:", prompt)  # Debugging message
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-002",  # Choose the language model engine
+            prompt=prompt,
+            max_tokens=150  # Adjust the max_tokens parameter as needed for the desired response length
+        )
+        print("DEBUG: OpenAI response:", response)  # Debugging message
+        if response.choices and response.choices[0].text:
+            return response.choices[0].text.strip()
+        else:
+            return "No response from OpenAI."
+    except Exception as e:
+        print("DEBUG: OpenAI API error:", e)  # Debugging message
+        return "Error during OpenAI chat."
+
+
 
 def assistant(command, device_id):
     if 'time' in command:
@@ -110,19 +121,19 @@ def assistant(command, device_id):
         else:
             speak("Please specify what you want to search for.")
     elif 'chat with me' in command.lower():
-        # Extract the chat prompt from the command
+    # Initialize chat_prompt with a default value
+        chat_prompt = "How are you?"
+
+    # Extract the chat prompt from the command
         chat_prompt = command.lower().replace('chat with me', '').strip()
-        if chat_prompt:
-            response = chat_with_openai(chat_prompt)
-            speak(f"OpenAI says: {response}")
-        else:
-            speak("Please provide a prompt to start the chat.")
-    elif 'goodbye' in command.lower():
-        speak("Goodbye! Shutting down.")
-        exit()
-    else:
-        # For unrecognized commands, don't speak any response
-        pass
+
+    # Initiate the chat with the provided prompt
+        response = chat_with_openai(chat_prompt)
+        speak(f"Optimus Prime says: {response}")
+
+
+
+
 
 speak("Hello, I am your personal assistant, Optimus Prime.")
 is_awake = True

@@ -5,7 +5,6 @@ import webbrowser
 import speech_recognition as sr
 from voice import speak, listen
 from spotify import play_music, pause_music, next_song, play_song
-from openai import chat_with_openai
 import subprocess
 import pyttsx3
 
@@ -95,26 +94,6 @@ def open_website(command):
         speak(f"Opening {website_name}.")
     else:
         speak("Please specify the name of the website you want to open.")
-
-
-
-def chat_with_openai(prompt):
-    print("DEBUG: Initiating OpenAI chat with prompt:", prompt)  # Debugging message
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-002",  # Choose the language model engine
-            prompt=prompt,
-            max_tokens=150  # Adjust the max_tokens parameter as needed for the desired response length
-        )
-        print("DEBUG: OpenAI response:", response)  # Debugging message
-        if response.choices and response.choices[0].text:
-            return response.choices[0].text.strip()
-        else:
-            return "No response from OpenAI."
-    except Exception as e:
-        print("DEBUG: OpenAI API error:", e)  # Debugging message
-        return "Error during OpenAI chat."
-
 
 def main():
     speak("Hello, Mother Fucker, Optimus Prime Reporting for Duty.")
