@@ -84,7 +84,7 @@ def open_notepad():
 
 def open_website(command):
     # Extract the website name from the command
-    website_name = command.lower().replace('open website', '').strip()
+    website_name = command.lower().replace('open website', '').replace('take me to', '').strip()
     if website_name:
         # Prepare the URL
         if " " in website_name:
@@ -95,6 +95,7 @@ def open_website(command):
         speak(f"Opening {website_name}.")
     else:
         speak("Please specify the name of the website you want to open.")
+
 
 
 def chat_with_openai(prompt):
@@ -146,13 +147,14 @@ def main():
                     speak("taking you home motherfucker")
                   
 
-                elif 'table right' in command.lower():
+                elif 'table right' in command.lower() or 'tab to the right' in command.lower() or 'word to the right' in command.lower():
+
                     tab_right()
                     speak("Tabbed to the right motherfucker.")
                 elif 'switch app' in command.lower():
                     switch_app()
                     speak("Transforming App MotherFucker")  
-                elif 'word to the left' in command.lower() or 'tab to the left' in command.lower() or 'word to the right' in command.lower():
+                elif 'word to the left' in command.lower() or 'table left' in command.lower():
                     tab_left()
                     speak("Tabbed to the left motherfucker.")
                 elif 'loud noises' in command:
